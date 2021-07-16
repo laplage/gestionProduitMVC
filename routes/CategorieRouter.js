@@ -1,8 +1,10 @@
 const express = require('express')
 const mysql = require('mysql')
+
+//Création du router
 const CategorieRouter = express.Router()
 
-const controllerCat = require('../controllers/CategorieController')
+//const controllerCat = require('../controllers/CategorieController')
 
 const db =  mysql.createConnection({
         host : 'localhost',
@@ -12,29 +14,14 @@ const db =  mysql.createConnection({
 })
 //3-    Etablir la connexion via l'objet de connexion db
 db.connect((err)=>{
+    //liaison entre le modele et le contrôlleur (ici le dossier route est considéré comme le contrôlleur)
+        let Categorie = require('../models/categorie-class')(db) // passage de paramètre (db) à un module
     // Création des routes
-    CategorieRouter.route('/')
-        .get((req,res)=>{
-             // liste de toutes les catégories
-               if(req.query.limite != undefined && req.query.limite > 0){
-                    let limite = parseInt(req.query.limite)
-                    db.query('SELECT * FROM categories LIMIT 0,?',[limite],(err,data)=>{
-                        if(err)
-                            res.send('Erreur d\'exécution de la requête SQL : ' + err.message)
-                        else
-                            res.send(data)
-                    })
-               }else if(req.query.limite != undefined){
-                    res.send('Mauvaise limite')
-               }else{
-                    db.query('SELECT * FROM categories',(err,data)=>{
-                        if(err)
-                            res.send('Erreur d\'exécution de la requête SQL ')
-                        else
-                            res.send(data)
-                    })
-               }
-         })
+        CategorieRouter.route('/')
+            .get(async(req,res)=>{
+                let cat = await Categorie.getAllCategorie(req.query.limite)
+                res.send(cat)
+            }) 
 })
     //     .get(controllerCat.getAllCategorie)
 
