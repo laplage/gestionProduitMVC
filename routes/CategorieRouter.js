@@ -20,10 +20,25 @@ db.connect((err)=>{
         CategorieRouter.route('/')
             .get(async(req,res)=>{
                 let cat = await Categorie.getAllCategorie(req.query.limite)
-                res.send(cat)
+
+                res.send(cat instanceof Error ? cat.message : cat)
             }) 
+        CategorieRouter.route('/:id')
+            .get(async(req,res)=>{
+                let cat = await Categorie.getCategorieByID(req.params.id)
+                
+                res.send(cat instanceof Error ? cat.message : cat)
+            })            
 })
-    //     .get(controllerCat.getAllCategorie)
+ module.exports = CategorieRouter;
+
+
+
+
+
+
+
+     //     .get(controllerCat.getAllCategorie)
 
     //     .post(controllerCat.updateCategorie)
 
@@ -31,4 +46,3 @@ db.connect((err)=>{
     //     .get(controllerCat.getCategorieByID)   
     //     .delete(controllerCat.deleteCategorieByID)
     //     .put(controllerCat.updateCategorie)
- module.exports = CategorieRouter;

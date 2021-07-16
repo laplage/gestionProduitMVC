@@ -32,7 +32,36 @@ let Categorie = class{
     //2-    Fonction qui permet de retourner une catégorie connaissant son id
         static getCategorieByID(id){
             return new Promise((resolve,reject)=>{
+                db.query('SELECT * FROM categories WHERE id = ?',[id],(err,data)=>{
+                    if(err){
+                        reject(err)
+                    }else{
+                        if(data[0]!=undefined){
+                            resolve(data[0])
+                        }else{
+                            reject(new Error('Wrong ID'))
+                        }
+                    }
+                })
+            })
+        }
+    //3-    Méthode qui supprime ue catégorie
+        static deleteCategorieByID(id){
+            return new Promise((resolve,reject)=>{
 
             })
         }
+    //4-    Méthode de mise-à-jour d'une catégorie
+        static updateCategorie(cat){
+            return new Promise((resolve,reject)=>{
+
+            })
+        }
+    //5-    Méthode d'ajout d'une catégorie
+        static insertCategorie(libelle){
+            return new Promise((resolve,reject)=>{
+
+            })
+        }
+
 }
