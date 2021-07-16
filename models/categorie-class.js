@@ -104,7 +104,9 @@ let Categorie = class{
     //5-    Méthode d'ajout d'une catégorie
         static insertCategorie(libelle){
             return new Promise((next)=>{
+
                 db.query('SELECT * FROM categories WHERE libelle = ?',[libelle],(err,data)=>{
+
                     if(err)
                         next(err)
                     else{
@@ -123,5 +125,17 @@ let Categorie = class{
             })
         }
     //6-    Méthode de recherche des catégories par mots clés
+    static rechercheCategorieParMC(mc){
+        return new Promise((next)=>{
+            let mot = "%"+mc+"%";
+            db.query('SELECT * FROM categories WHERE libelle like ? ',[mot],(err,data)=>{
+                if(err)
+                    next(err)
+                else
+                    next(data)
+            })
+
+        })
+    }
         
 }

@@ -45,7 +45,12 @@ db.connect((err)=>{
                 }
                 cat = await Categorie.updateCategorie(categorie)
                 res.send(isErreur(cat) ? cat.message : cat)
-            })        
+            })   
+        CategorieRouter.route('/mc/:mc') 
+            .get(async(req,res)=>{
+                cat = await Categorie.rechercheCategorieParMC(req.params.mc)
+                res.send(isErreur(cat) ? cat.message : cat)
+            })    
 })
  module.exports = CategorieRouter;
 
