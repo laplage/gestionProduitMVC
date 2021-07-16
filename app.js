@@ -5,6 +5,8 @@ const app = express();
 
 const CategorieRouter = require('./routes/CategorieRouter.js')
 
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.use('/api/v1/categories',CategorieRouter)
 
